@@ -6,30 +6,40 @@
 #include "Regulator.h"
 #include "RegulatorBB.h"
 #include "RegulatorPID.h"
+#include "RegulatorException.h"
 
 class Symulacja
 {
 private:
-    Pomieszczenie pomieszczenie;
-    Grzejnik grzejnik;
+    Pomieszczenie* pomieszczenie;
+    Grzejnik* grzejnik;
     Regulator* regulator;
     std::vector<float> zapis_przebiegu{};
 public:
-    Symulacja(Pomieszczenie& pomieszczenie, Grzejnik& grzejnik, Regulator& regulator)
-    : pomieszczenie(pomieszczenie), grzejnik(grzejnik)
+    Symulacja(Pomieszczenie& pomieszczenie, Grzejnik& grzejnik, int typ_regulatora)
+    : pomieszczenie(&pomieszczenie), grzejnik(&grzejnik)
     {
-        RegulatorBB* regulatorBB_ptr;
-        regulatorBB_ptr = (RegulatorBB*)&regulator;
-        if (regulatorBB_ptr)
+        if (typ_regulatora == 1)
         {
-            this->regulator = (RegulatorBB*)&regulator;
+            regulator = new RegulatorBB{};
+        }
+        else if (typ_regulatora == 2)
+        {
+            regulator = new RegulatorPID{};
         }
         else
         {
-            this->regulator = (RegulatorPID*)&regulator;
+            throw RegulatorException();
         }
+        regulator->zainincujSkladowe(pomieszczenie, grzejnik);
+    }
+
+    ~Symulacja()
+    {
+        delete regulator;
     }
 
     void iteracja(float probkowanie);
     void przebieg(int ilosc_iteracji, float czas_probkowania);
+    void zapisz_do_pliku();
 };

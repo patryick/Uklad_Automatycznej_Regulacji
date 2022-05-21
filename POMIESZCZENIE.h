@@ -1,6 +1,6 @@
 #pragma once
 
-class Pomieszczenie {
+class Pomieszczenie{
  public:
   Pomieszczenie(float wysokosc, float szerokosc, float glebokosc);
   float getTemperatura() const { return temperaturaWewnetrzna; }

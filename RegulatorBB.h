@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Regulator.h"
+#include "POMIESZCZENIE.h"
+#include "Grzejnik.h"
 
 class RegulatorBB : public Regulator
 {
 public:
-    float steruj(float wartosc_zadana_temperatury, float wartosc_zmierzona_temperatury, float probkowanie) override;
+
+    void steruj(float wartosc_zadana_temperatury, float probkowanie) override;
 };

@@ -3,7 +3,7 @@
 class Grzejnik
 {
 private:
-    const float moc_nominalna;
+    float moc_nominalna;
     float aktualny_poziom_mocy;
 public:
     Grzejnik(float moc_nominalna, float aktualny_poziom_mocy)

@@ -1,17 +1,13 @@
-//
-// Created by Patrick on 20.05.2022.
-//
-
+#include <iostream>
 #include "RegulatorBB.h"
 
-float RegulatorBB::steruj(float wartosc_zadana_temperatury, float wartosc_zmierzona_temperatury, float probkowanie)
+void RegulatorBB::steruj(float wartosc_zadana_temperatury, float probkowanie)
 {
-    if (wartosc_zadana_temperatury > wartosc_zmierzona_temperatury)
+    float dodawane_cieplo = 0;
+    if (wartosc_zadana_temperatury > pomieszczenie->getTemperatura())
     {
-        return 1;
+        dodawane_cieplo = grzejnik->getCieplo();
+        pomieszczenie->dodajCieplo(dodawane_cieplo);
     }
-    else
-    {
-        return 0;
-    }
+    zapis_mocy.push_back(dodawane_cieplo);
 }

@@ -15,23 +15,16 @@ int main()
     Pomieszczenie pomieszczenie{1, 1, 1};
     Grzejnik grzejnik{500, 0.9};
 
-    if (wybor == 1)
+    try
     {
-        RegulatorBB regulatorBB{};
-        Symulacja symulacja{pomieszczenie, grzejnik, regulatorBB};
-        symulacja.przebieg(100, 0.1);
+        Symulacja symulacja(pomieszczenie, grzejnik, wybor);
+        symulacja.przebieg(100, 0.5);
+        symulacja.zapisz_do_pliku();
     }
-    else if (wybor == 2)
+    catch (RegulatorException& e)
     {
-        RegulatorPID regulatorPID{};
-        Symulacja symulacja{pomieszczenie, grzejnik, regulatorPID};
-        symulacja.przebieg(100, 0.1);
+        std::cout << e.what();
     }
-    else
-    {
-        std::cerr << "Nieprawidlowy wybor!!!\n";
-    }
-
 
 
 
