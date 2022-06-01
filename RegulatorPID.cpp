@@ -1,10 +1,16 @@
 #include "RegulatorPID.h"
+#include "WyjatekDzieleniePrzez0.h"
+
 
 void RegulatorPID::steruj(float wartosc_zadana_temperatury, float dt)
 {
     if (pomieszczenie == nullptr || grzejnik == nullptr)
     {
         throw WyjatekRegulator();
+    }
+    if (dt == 0)
+    {
+        throw WyjatekDzieleniePrzez0();
     }
     float e = wartosc_zadana_temperatury - pomieszczenie->getTemperatura();
     float up = Kp * e;

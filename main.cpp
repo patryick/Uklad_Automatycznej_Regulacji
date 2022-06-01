@@ -13,6 +13,7 @@ int main()
 
     Pomieszczenie pomieszczenie{1, 1, 1};
     Grzejnik grzejnik{1000, 0.5};
+
     Symulacja symulacja(pomieszczenie, grzejnik, wybor);
 
     symulacja.przebieg(100, 0.5);

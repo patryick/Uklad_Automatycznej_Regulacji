@@ -11,13 +11,13 @@
 class Symulacja
 {
 private:
-    Pomieszczenie* pomieszczenie;
-    Grzejnik* grzejnik;
+    Pomieszczenie pomieszczenie;
+    Grzejnik grzejnik;
     Regulator* regulator;
     std::vector<float> zapis_przebiegu{};
 public:
     Symulacja(Pomieszczenie& p, Grzejnik& g, const int& w)
-    : pomieszczenie(&p), grzejnik(&g)
+    : pomieszczenie(p), grzejnik(g)
     {
         if (w == 1)
         {
@@ -27,7 +27,21 @@ public:
         {
             regulator = new RegulatorPID{};
         }
-        regulator->zainincujSkladowe(pomieszczenie, grzejnik);
+        regulator->zainincujSkladowe(&pomieszczenie, &grzejnik);
+    }
+
+    Symulacja(const Symulacja& s)
+    : pomieszczenie(s.pomieszczenie), grzejnik(s.grzejnik)
+    {
+        if ((RegulatorBB*)s.regulator != nullptr)
+        {
+            this->regulator = new RegulatorBB{};
+        }
+        else
+        {
+            this->regulator = new RegulatorPID{};
+        }
+        regulator->zainincujSkladowe(&pomieszczenie, &grzejnik);
     }
 
     ~Symulacja()
