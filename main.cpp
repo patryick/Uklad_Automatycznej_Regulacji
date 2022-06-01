@@ -1,30 +1,24 @@
 #include <iostream>
 #include "Symulacja.h"
 #include "POMIESZCZENIE.h"
-#include "RegulatorBB.h"
-#include "RegulatorPID.h"
 
 int main()
 {
     int wybor;
-    std::cout << "Wybierz rodzaj regulatora:\n";
-    std::cout << "1. RegulatorBB\n";
-    std::cout << "2. RegulatorPID\n";
+    std::cout << "-----------------------------------" << std::endl;
+    std::cout << "Wybierz rodzaj regulatora:" << std::endl;
+    std::cout << "1. RegulatorBB" << std::endl;
+    std::cout << "2. RegulatorPID" << std::endl;
     std::cin >> wybor;
 
     Pomieszczenie pomieszczenie{1, 1, 1};
-    Grzejnik grzejnik{500, 0.9};
+    Grzejnik grzejnik{1000, 0.5};
+    Symulacja symulacja(pomieszczenie, grzejnik, wybor);
 
-    try
-    {
-        Symulacja symulacja(pomieszczenie, grzejnik, wybor);
-        symulacja.przebieg(100, 0.5);
-        symulacja.zapisz_do_pliku();
-    }
-    catch (RegulatorException& e)
-    {
-        std::cout << e.what();
-    }
+    symulacja.przebieg(100, 0.5);
+    symulacja.zapisz();
+
+
 
 
 

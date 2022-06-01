@@ -2,23 +2,32 @@
 #include <fstream>
 #include <iostream>
 
-void Symulacja::iteracja(float probkowanie)
+void Symulacja::iteracja(float dt)
 {
-    pomieszczenie->aktualizuj(probkowanie);
-    regulator->steruj(21, probkowanie);
+    pomieszczenie->aktualizuj(dt);
+    try
+    {
+        regulator->steruj(21, dt);
+    }
+    catch (WyjatekRegulator& e)
+    {
+        std::cerr << e.what();
+        regulator->zainincujSkladowe(this->pomieszczenie, this->grzejnik);
+        regulator->steruj(21, dt);
+    }
     zapis_przebiegu.push_back(pomieszczenie->getTemperatura());
 }
 
-void Symulacja::przebieg(int ilosc_iteracji, float czas_probkowania)
+void Symulacja::przebieg(int n, float dt)
 {
-    for (int i = 0; i < ilosc_iteracji; i++)
+    for (int i = 0; i < n; i++)
     {
-        this->iteracja(czas_probkowania);
+        this->iteracja(dt);
     }
 
 }
 
-void Symulacja::zapisz_do_pliku()
+void Symulacja::zapisz()
 {
     std::ofstream plik("plik.csv");
     for (int i = 0; i < zapis_przebiegu.size(); i++)

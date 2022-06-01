@@ -1,13 +1,17 @@
 #include <iostream>
 #include "RegulatorBB.h"
 
-void RegulatorBB::steruj(float wartosc_zadana_temperatury, float probkowanie)
+void RegulatorBB::steruj(float temperatura, float dt)
 {
-    float dodawane_cieplo = 0;
-    if (wartosc_zadana_temperatury > pomieszczenie->getTemperatura())
+    if (pomieszczenie == nullptr || grzejnik == nullptr)
     {
-        dodawane_cieplo = grzejnik->getCieplo();
-        pomieszczenie->dodajCieplo(dodawane_cieplo);
+        throw WyjatekRegulator();
     }
-    zapis_mocy.push_back(dodawane_cieplo);
+    float cieplo_dodane = 0;
+    if (temperatura > pomieszczenie->getTemperatura())
+    {
+        cieplo_dodane = grzejnik->getCieplo();
+        pomieszczenie->dodajCieplo(cieplo_dodane);
+    }
+    zapis_mocy.push_back(cieplo_dodane);
 }

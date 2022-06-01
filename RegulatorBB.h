@@ -8,5 +8,5 @@ class RegulatorBB : public Regulator
 {
 public:
 
-    void steruj(float wartosc_zadana_temperatury, float probkowanie) override;
+    void steruj(float temperatura, float dt) override;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "POMIESZCZENIE.h"
 #include "Grzejnik.h"
+#include "WyjatekRegulator.h"
 #include <vector>
 
 class Regulator
@@ -11,10 +12,12 @@ protected:
 public:
     std::vector<float> zapis_mocy{};
 
-    void zainincujSkladowe(Pomieszczenie& pomieszczenie, Grzejnik& grzejnik)
+    virtual ~Regulator() = default;
+
+    void zainincujSkladowe(Pomieszczenie* p, Grzejnik* g)
     {
-        this->grzejnik = &grzejnik;
-        this->pomieszczenie = &pomieszczenie;
+        this->grzejnik = g;
+        this->pomieszczenie = p;
     }
     virtual void steruj(float wartosc_zadana_temperatury, float probkowanie) = 0;
 };

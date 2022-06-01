@@ -7,4 +7,4 @@ include_directories(.)
 
 add_executable(Uklad_Automatycznej_Regulacji
         POMIESZCZENIE.cpp
-        POMIESZCZENIE.h Symulacja.cpp Symulacja.h main.cpp Grzejnik.cpp Grzejnik.h Regulator.h RegulatorBB.cpp RegulatorBB.h RegulatorPID.cpp RegulatorPID.h RegulatorException.h)
+        POMIESZCZENIE.h Symulacja.cpp Symulacja.h main.cpp Grzejnik.cpp Grzejnik.h Regulator.h RegulatorBB.cpp RegulatorBB.h RegulatorPID.cpp RegulatorPID.h WyjatekRegulator.h)

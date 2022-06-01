@@ -1,19 +1,19 @@
 #include "RegulatorPID.h"
 
-void RegulatorPID::steruj(float wartosc_zadana_temperatury, float probkowanie)
+void RegulatorPID::steruj(float wartosc_zadana_temperatury, float dt)
 {
-    float uchyb_aktualny = wartosc_zadana_temperatury - pomieszczenie->getTemperatura();
-    float czesc_proporcjonalna = Kp * uchyb_aktualny;
-
-    calka_uchybu += uchyb_aktualny * probkowanie;
-    float czesc_calkujaca = Ki * calka_uchybu;
-
-    float pochodna_uchybu = (uchyb_aktualny - uchyb_poprzedni) / probkowanie;
-    float czesc_rozniczkujaca = Kd * pochodna_uchybu;
-
-    uchyb_poprzedni = uchyb_aktualny;
-
-    float dodawane_cieplo = grzejnik->getCieplo() * (czesc_calkujaca + czesc_proporcjonalna + czesc_rozniczkujaca);
+    if (pomieszczenie == nullptr || grzejnik == nullptr)
+    {
+        throw WyjatekRegulator();
+    }
+    float e = wartosc_zadana_temperatury - pomieszczenie->getTemperatura();
+    float up = Kp * e;
+    e_calka += e * dt;
+    float ui = Ki * e_calka;
+    float de = (e - e_poprzednia) / dt;
+    float ud = Kd * de;
+    e_poprzednia = e;
+    float dodawane_cieplo = grzejnik->getCieplo() * (ui + up + ud);
     if (dodawane_cieplo < 0)
     {
         dodawane_cieplo = 0;

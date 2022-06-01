@@ -6,7 +6,7 @@
 #include "Regulator.h"
 #include "RegulatorBB.h"
 #include "RegulatorPID.h"
-#include "RegulatorException.h"
+#include "WyjatekRegulator.h"
 
 class Symulacja
 {
@@ -16,20 +16,16 @@ private:
     Regulator* regulator;
     std::vector<float> zapis_przebiegu{};
 public:
-    Symulacja(Pomieszczenie& pomieszczenie, Grzejnik& grzejnik, int typ_regulatora)
-    : pomieszczenie(&pomieszczenie), grzejnik(&grzejnik)
+    Symulacja(Pomieszczenie& p, Grzejnik& g, const int& w)
+    : pomieszczenie(&p), grzejnik(&g)
     {
-        if (typ_regulatora == 1)
+        if (w == 1)
         {
             regulator = new RegulatorBB{};
         }
-        else if (typ_regulatora == 2)
+        else if (w == 2)
         {
             regulator = new RegulatorPID{};
-        }
-        else
-        {
-            throw RegulatorException();
         }
         regulator->zainincujSkladowe(pomieszczenie, grzejnik);
     }
@@ -39,7 +35,7 @@ public:
         delete regulator;
     }
 
-    void iteracja(float probkowanie);
-    void przebieg(int ilosc_iteracji, float czas_probkowania);
-    void zapisz_do_pliku();
+    void iteracja(float dt);
+    void przebieg(int n, float dt);
+    void zapisz();
 };
